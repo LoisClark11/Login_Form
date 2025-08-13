@@ -35,6 +35,9 @@ namespace Login_Form
             if (textBox1.Text == "admin" && textBox2.Text == "password")
             {
                 MessageBox.Show("Login successful!");
+                this.Hide();
+                Form2 form2 = new Form2();
+                form2.Show();
             }
             else
             {
