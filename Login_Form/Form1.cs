@@ -32,7 +32,7 @@ namespace Login_Form
                 using (MySqlConnection conn = new MySqlConnection(connection))
                 {
                     conn.Open();
-                    string query = "SELECT Name FROM user WHERE username = @username AND password = @password";
+                    string query = "SELECT Name FROM users WHERE username = @username AND password = @password";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
