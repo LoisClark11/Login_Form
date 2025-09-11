@@ -74,6 +74,7 @@ namespace Login_Form
                     string query = "INSERT INTO users (name, age, email, username, password) VALUES (@name, @age, @email, @username, @password)";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
+                        txtbx_Name.Focus();
                         cmd.Parameters.AddWithValue("@Name", txtbx_Name.Text);
                         cmd.Parameters.AddWithValue("@age", txtbx_Age.Text);
                         cmd.Parameters.AddWithValue("@email", txtbx_Email.Text);
@@ -93,6 +94,12 @@ namespace Login_Form
                         {
                             MessageBox.Show("User added successfully!", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LoadData();
+                            txtbx_ID.Clear();
+                            txtbx_Name.Clear();
+                            txtbx_Age.Clear();
+                            txtbx_Email.Clear();
+                            txtbx_Username.Clear();
+                            txtbx_Password.Clear();
                         }
                         else
                         {
@@ -143,6 +150,12 @@ namespace Login_Form
                         {
                             MessageBox.Show("User deleted successfully!", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LoadData();
+                            txtbx_ID.Clear();
+                            txtbx_Name.Clear();
+                            txtbx_Age.Clear();
+                            txtbx_Email.Clear();
+                            txtbx_Username.Clear();
+                            txtbx_Password.Clear();
                         }
                         else
                         {
@@ -175,6 +188,12 @@ namespace Login_Form
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("User updated successfully!", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadData();
+                    txtbx_ID.Clear();
+                    txtbx_Name.Clear();
+                    txtbx_Age.Clear();
+                    txtbx_Email.Clear();
+                    txtbx_Username.Clear();
+                    txtbx_Password.Clear();
                 }
                 catch (Exception ex)
                 {
