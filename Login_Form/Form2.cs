@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 
 namespace Login_Form
 {
@@ -22,11 +23,6 @@ namespace Login_Form
         {
             InitializeComponent();
         }
-        private void Form2_Load(object sender, EventArgs e)
-        {
-            
-        }
-        
         private void LoadData()
         {
             try
@@ -49,6 +45,34 @@ namespace Login_Form
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT * FROM users";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    dataGridView1.DataSource = dt;
+
+                    if (dataGridView1.Columns.Contains("password"))
+                    {
+                        dataGridView1.Columns["password"].Visible = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -60,8 +84,25 @@ namespace Login_Form
                 txtbx_Age.Text = row.Cells["age"].Value.ToString();
                 txtbx_Email.Text = row.Cells["email"].Value.ToString();
                 txtbx_Username.Text = row.Cells["username"].Value.ToString();
-                txtbx_Password.Text = row.Cells["password"].Value.ToString();
+                txtbx_Password.Text = "";
             }
+        }
+        private string HashPassword(string password)
+        {
+            byte[] salt = new byte[16];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(salt);
+            }
+
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+
+            return Convert.ToBase64String(hashBytes);
         }
 
         private void btn_Add_Click(object sender, EventArgs e)
@@ -79,7 +120,8 @@ namespace Login_Form
                         cmd.Parameters.AddWithValue("@age", txtbx_Age.Text);
                         cmd.Parameters.AddWithValue("@email", txtbx_Email.Text);
                         cmd.Parameters.AddWithValue("@username", txtbx_Username.Text);
-                        cmd.Parameters.AddWithValue("@password", txtbx_Password.Text);
+                        string hashedPassword = HashPassword(txtbx_Password.Text);
+                        cmd.Parameters.AddWithValue("@password", hashedPassword);
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (string.IsNullOrWhiteSpace(txtbx_Name.Text) ||
                             string.IsNullOrWhiteSpace(txtbx_Age.Text) ||
@@ -100,6 +142,7 @@ namespace Login_Form
                             txtbx_Email.Clear();
                             txtbx_Username.Clear();
                             txtbx_Password.Clear();
+                            txtbx_Username.Focus();
                         }
                         else
                         {
@@ -156,6 +199,7 @@ namespace Login_Form
                             txtbx_Email.Clear();
                             txtbx_Username.Clear();
                             txtbx_Password.Clear();
+                            txtbx_Username.Focus();
                         }
                         else
                         {
@@ -183,7 +227,9 @@ namespace Login_Form
                     cmd.Parameters.AddWithValue("@age", txtbx_Age.Text);
                     cmd.Parameters.AddWithValue("@email", txtbx_Email.Text);
                     cmd.Parameters.AddWithValue("@username", txtbx_Username.Text);
-                    cmd.Parameters.AddWithValue("@password", txtbx_Password.Text);
+                    string hashedPassword = HashPassword(txtbx_Password.Text);
+                    cmd.Parameters.AddWithValue("@password", hashedPassword);
+
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("User updated successfully!", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -194,6 +240,7 @@ namespace Login_Form
                     txtbx_Email.Clear();
                     txtbx_Username.Clear();
                     txtbx_Password.Clear();
+                    txtbx_Username.Focus();
                 }
                 catch (Exception ex)
                 {
@@ -201,19 +248,33 @@ namespace Login_Form
                 }
             }    
         }
-
-        private void btn_View_Click(object sender, EventArgs e)
+        private void btn_Clear_Click(object sender, EventArgs e)
         {
-            dataGridView1.Enabled = !dataGridView1.Enabled;
+            txtbx_ID.Clear();
+            txtbx_Name.Clear();
+            txtbx_Age.Clear();
+            txtbx_Email.Clear();
+            txtbx_Username.Clear();
+            txtbx_Password.Clear();
 
-            if (dataGridView1.Enabled)
+            txtbx_Name.Focus();
+
+            dataGridView1.ClearSelection();
+        }
+
+        private void showhide_Click(object sender, EventArgs e)
+        {
+            if (txtbx_Password.UseSystemPasswordChar)
             {
-                LoadData();
+                txtbx_Password.UseSystemPasswordChar = false;
+                showhide.Text = "Hide";
             }
             else
             {
-                dataGridView1.DataSource = null;
+                txtbx_Password.UseSystemPasswordChar = true;
+                showhide.Text = "Show";
             }
+
         }
     }
 }

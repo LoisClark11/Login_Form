@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,40 +24,70 @@ namespace Login_Form
         {
             txt_Username.Focus();
         }
+        private bool VerifyPassword(string enteredPassword, string storedHash)
+        {
+            byte[] hashBytes = Convert.FromBase64String(storedHash);
+
+            byte[] salt = new byte[16];
+            Array.Copy(hashBytes, 0, salt, 0, 16);
+
+            var pbkdf2 = new Rfc2898DeriveBytes(enteredPassword, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+
+            for (int i = 0; i < 20; i++)
+            {
+                if (hashBytes[i + 16] != hash[i])
+                    return false;
+            }
+
+            return true;
+        }
+
         private void btn_LogIn_Click(object sender, EventArgs e)
         {
-            string username = txt_Username.Text;
+            string username = txt_Username.Text.Trim();
             string password = txt_Password.Text;
+
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connection))
                 {
                     conn.Open();
-                    string query = "SELECT Name FROM users WHERE username = @username AND password = @password";
+                    string query = "SELECT Name, password FROM users WHERE username = @username";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
-                        cmd.Parameters.AddWithValue("@password", password);
 
-                        object result = cmd.ExecuteScalar();
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string name = reader["Name"].ToString();
+                                string storedHash = reader["password"].ToString();
 
-                        if (result != null)
-                        {
-                            string name = result.ToString();
-                            MessageBox.Show("Hello, " + name + "!", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Hide();
-                            Form2 form2 = new Form2();
-                            form2.Show();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            txt_Username.Clear();
-                            txt_Password.Clear();
-                            txt_Username.Focus();
+                                if (VerifyPassword(password, storedHash))
+                                {
+                                    MessageBox.Show("Hello, " + name + "!", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    this.Hide();
+                                    Form2 form2 = new Form2();
+                                    form2.Show();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    txt_Password.Clear();
+                                    txt_Username.Focus();
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("User not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                txt_Username.Clear();
+                                txt_Password.Clear();
+                                txt_Username.Focus();
+                            }
                         }
                     }
-
                 }
             }
             catch (Exception ex)

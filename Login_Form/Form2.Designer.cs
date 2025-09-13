@@ -32,7 +32,7 @@
             this.btn_Add = new System.Windows.Forms.Button();
             this.btn_Delete = new System.Windows.Forms.Button();
             this.btn_Update = new System.Windows.Forms.Button();
-            this.btn_View = new System.Windows.Forms.Button();
+            this.btn_Clear = new System.Windows.Forms.Button();
             this.txtbx_ID = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtbx_Name = new System.Windows.Forms.TextBox();
@@ -46,6 +46,7 @@
             this.txtbx_Password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.showhide = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,7 +54,6 @@
             // 
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Enabled = false;
             this.dataGridView1.Location = new System.Drawing.Point(246, 89);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(542, 349);
@@ -111,22 +111,22 @@
             this.btn_Update.UseVisualStyleBackColor = false;
             this.btn_Update.Click += new System.EventHandler(this.btn_Update_Click);
             // 
-            // btn_View
+            // btn_Clear
             // 
-            this.btn_View.BackColor = System.Drawing.Color.LimeGreen;
-            this.btn_View.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.btn_View.FlatAppearance.BorderSize = 2;
-            this.btn_View.FlatAppearance.MouseDownBackColor = System.Drawing.Color.LimeGreen;
-            this.btn_View.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btn_View.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_View.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_View.Location = new System.Drawing.Point(118, 400);
-            this.btn_View.Name = "btn_View";
-            this.btn_View.Size = new System.Drawing.Size(100, 38);
-            this.btn_View.TabIndex = 4;
-            this.btn_View.Text = "VIEW";
-            this.btn_View.UseVisualStyleBackColor = false;
-            this.btn_View.Click += new System.EventHandler(this.btn_View_Click);
+            this.btn_Clear.BackColor = System.Drawing.Color.LimeGreen;
+            this.btn_Clear.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btn_Clear.FlatAppearance.BorderSize = 2;
+            this.btn_Clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.LimeGreen;
+            this.btn_Clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Clear.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Clear.Location = new System.Drawing.Point(118, 400);
+            this.btn_Clear.Name = "btn_Clear";
+            this.btn_Clear.Size = new System.Drawing.Size(100, 38);
+            this.btn_Clear.TabIndex = 4;
+            this.btn_Clear.Text = "CLEAR";
+            this.btn_Clear.UseVisualStyleBackColor = false;
+            this.btn_Clear.Click += new System.EventHandler(this.btn_Clear_Click);
             // 
             // txtbx_ID
             // 
@@ -220,6 +220,7 @@
             this.txtbx_Password.Name = "txtbx_Password";
             this.txtbx_Password.Size = new System.Drawing.Size(206, 20);
             this.txtbx_Password.TabIndex = 15;
+            this.txtbx_Password.UseSystemPasswordChar = true;
             // 
             // label1
             // 
@@ -241,12 +242,28 @@
             this.label7.TabIndex = 18;
             this.label7.Text = "USERS MANAGEMENT SYSTEM";
             // 
+            // showhide
+            // 
+            this.showhide.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.showhide.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.showhide.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.showhide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.showhide.Font = new System.Drawing.Font("Leelawadee UI", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.showhide.Location = new System.Drawing.Point(172, 301);
+            this.showhide.Name = "showhide";
+            this.showhide.Size = new System.Drawing.Size(46, 20);
+            this.showhide.TabIndex = 19;
+            this.showhide.Text = "Show";
+            this.showhide.UseVisualStyleBackColor = false;
+            this.showhide.Click += new System.EventHandler(this.showhide_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(800, 446);
+            this.Controls.Add(this.showhide);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label6);
@@ -260,7 +277,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtbx_Name);
             this.Controls.Add(this.txtbx_ID);
-            this.Controls.Add(this.btn_View);
+            this.Controls.Add(this.btn_Clear);
             this.Controls.Add(this.btn_Update);
             this.Controls.Add(this.btn_Delete);
             this.Controls.Add(this.btn_Add);
@@ -281,7 +298,7 @@
         private System.Windows.Forms.Button btn_Add;
         private System.Windows.Forms.Button btn_Delete;
         private System.Windows.Forms.Button btn_Update;
-        private System.Windows.Forms.Button btn_View;
+        private System.Windows.Forms.Button btn_Clear;
         private System.Windows.Forms.TextBox txtbx_ID;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtbx_Name;
@@ -295,5 +312,6 @@
         private System.Windows.Forms.TextBox txtbx_Password;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button showhide;
     }
 }
