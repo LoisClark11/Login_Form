@@ -39,19 +39,29 @@
             // 
             // txt_Username
             // 
+            this.txt_Username.BackColor = System.Drawing.Color.Silver;
+            this.txt_Username.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_Username.Location = new System.Drawing.Point(336, 216);
             this.txt_Username.Name = "txt_Username";
             this.txt_Username.Size = new System.Drawing.Size(165, 20);
             this.txt_Username.TabIndex = 1;
+            this.txt_Username.TextChanged += new System.EventHandler(this.txt_Username_TextChanged);
+            this.txt_Username.Enter += new System.EventHandler(this.txt_Username_Enter);
+            this.txt_Username.Leave += new System.EventHandler(this.txt_Username_Leave);
             // 
             // txt_Password
             // 
+            this.txt_Password.BackColor = System.Drawing.Color.Silver;
+            this.txt_Password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_Password.Location = new System.Drawing.Point(336, 252);
             this.txt_Password.Name = "txt_Password";
             this.txt_Password.Size = new System.Drawing.Size(165, 20);
             this.txt_Password.TabIndex = 2;
             this.txt_Password.UseSystemPasswordChar = true;
+            this.txt_Password.TextChanged += new System.EventHandler(this.txt_Password_TextChanged);
+            this.txt_Password.Enter += new System.EventHandler(this.txt_Password_Enter);
             this.txt_Password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_Password_KeyDown);
+            this.txt_Password.Leave += new System.EventHandler(this.txt_Password_Leave);
             // 
             // label1
             // 
@@ -83,6 +93,7 @@
             // 
             // btn_LogIn
             // 
+            this.btn_LogIn.Enabled = false;
             this.btn_LogIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_LogIn.Location = new System.Drawing.Point(353, 291);
             this.btn_LogIn.Name = "btn_LogIn";

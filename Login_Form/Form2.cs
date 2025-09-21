@@ -142,7 +142,7 @@ namespace Login_Form
                             txtbx_Email.Clear();
                             txtbx_Username.Clear();
                             txtbx_Password.Clear();
-                            txtbx_Username.Focus();
+                            txtbx_Name.Focus();
                         }
                         else
                         {
@@ -199,7 +199,7 @@ namespace Login_Form
                             txtbx_Email.Clear();
                             txtbx_Username.Clear();
                             txtbx_Password.Clear();
-                            txtbx_Username.Focus();
+                            txtbx_Name.Focus();
                         }
                         else
                         {
@@ -240,7 +240,7 @@ namespace Login_Form
                     txtbx_Email.Clear();
                     txtbx_Username.Clear();
                     txtbx_Password.Clear();
-                    txtbx_Username.Focus();
+                    txtbx_Name.Focus();
                 }
                 catch (Exception ex)
                 {

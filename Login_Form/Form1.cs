@@ -23,6 +23,16 @@ namespace Login_Form
         private void Form1_Load(object sender, EventArgs e)
         {
             txt_Username.Focus();
+            txt_Username.TextChanged += InputFields_TextChanged;
+            txt_Password.TextChanged += InputFields_TextChanged;
+            
+        }
+        private void InputFields_TextChanged(object sender, EventArgs e)
+        {
+            bool bothFilled = !string.IsNullOrWhiteSpace(txt_Username.Text)
+                           && !string.IsNullOrWhiteSpace(txt_Password.Text);
+
+            btn_LogIn.Enabled = bothFilled;
         }
         private bool VerifyPassword(string enteredPassword, string storedHash)
         {
@@ -74,7 +84,7 @@ namespace Login_Form
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Wrong Username/Password", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     txt_Password.Clear();
                                     txt_Username.Focus();
                                 }
@@ -131,6 +141,42 @@ namespace Login_Form
             {
                 MessageBox.Show("Connection Failed: " + ex.Message);
             }
+        }
+
+        private void txt_Username_Enter(object sender, EventArgs e)
+        {
+            txt_Username.BackColor = Color.White;
+        }
+
+        private void txt_Username_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txt_Username.Text))
+            {
+                txt_Username.BackColor = Color.Silver;
+            }
+        }
+
+        private void txt_Username_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void txt_Password_Enter(object sender, EventArgs e)
+        {
+            txt_Password.BackColor = Color.White;
+        }
+
+        private void txt_Password_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txt_Password.Text))
+            {
+                txt_Password.BackColor = Color.Silver;
+            }
+        }
+
+        private void txt_Password_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
