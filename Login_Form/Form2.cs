@@ -276,5 +276,17 @@ namespace Login_Form
             }
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form1 loginForm = new Form1();
+            loginForm.Show();
+        }
     }
 }

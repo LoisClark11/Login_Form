@@ -122,11 +122,6 @@ namespace Login_Form
             }
         }
 
-        private void connectionTest_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void connectionTest_Click(object sender, EventArgs e)
         {
             try
@@ -177,6 +172,11 @@ namespace Login_Form
         private void txt_Password_TextChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
